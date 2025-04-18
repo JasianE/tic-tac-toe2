@@ -8,7 +8,7 @@ function App() {
   const [board, setBoard] = useState(gameboard())
   const [currentPlayer, setCurrentPlayer] = useState('X')
   const [winner, setWinner] = useState('empty')
-  const [counter ,setCounter] = useState(0)
+  const [counter ,setCounter] = useState(1)
   function changeTile(tile){
     //First set the board 
     if(tile.getCheck() != 'empty' || winner != 'empty'){
@@ -25,10 +25,18 @@ function App() {
       setCurrentPlayer('X')
     }
     checkIfDone(currentPlayer, location)
+    let num = counter + 1;
+    setCounter(num)
+    console.log(counter)
+    if(counter == 9){
+      console.log('hello')
+      setWinner('Draw')
+    }
   }
   function replay(){
     setBoard(gameboard());
     setWinner('empty')
+    setCounter(0)
   }
   function checkIfDone(){
     //Check rows
@@ -85,7 +93,7 @@ function App() {
   }
   return (
     <div>
-      <h1 className='center'>{winner == 'empty' ? null : `The winner is player ` + winner + '!'}</h1>
+      <h1 className='center'>{winner == 'empty' ? null : winner == 'Draw' ? "It's a draw!" : `The winner is player ` + winner + '!'}</h1>
       <div className="board">
       {board.map((key) => { //Generate the tile board by mapping through the 2d array with 2 loops
         return key.map((tile) => {
